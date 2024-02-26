@@ -1,23 +1,4 @@
-<?php
-session_start();
-error_reporting(0);
-include('includes/config.php');
-if (strlen($_SESSION['alogin']) == "") {
-    header("Location: index.php");
-} else {
-    //For Deleting the notice
 
-    if ($_GET['id']) {
-        $id = $_GET['id'];
-        $sql = "delete from tblnotice where id=:id";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':id', $id, PDO::PARAM_STR);
-        $query->execute();
-        echo '<script>alert("Comunicado Eliminado")</script>';
-        echo "<script>window.location.href ='manage-notices.php'</script>";
-    }
-
-?>
 
     <link rel="stylesheet" type="text/css" href="assets/js/DataTables/datatables.min.css" />
     <!-- ========== TOP NAVBAR ========== -->
@@ -143,5 +124,3 @@ if (strlen($_SESSION['alogin']) == "") {
     <?php include('includes/footer.php'); ?>
 
 
-
-<?php } ?>

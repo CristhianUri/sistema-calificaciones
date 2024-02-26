@@ -2,9 +2,12 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
-if (strlen($_SESSION['alogin']) == "") {
-    header("Location: index.php");
+if (strlen($_SESSION['alogin']) == 1) {
+    # code...
+    header('location: index.php');
 } else {
+    # code...
+
     if (isset($_POST['submit'])) {
         $subjectname = $_POST['subjectname'];
         $subjectcode = $_POST['subjectcode'];
@@ -20,6 +23,7 @@ if (strlen($_SESSION['alogin']) == "") {
             $error = "Hubo un fallo, reintenta";
         }
     }
+    
 ?>
 
 

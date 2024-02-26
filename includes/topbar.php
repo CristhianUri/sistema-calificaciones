@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- <link rel="stylesheet" type="text/css" href="assets/js/DataTables/datatables.min.css"/> -->
     <script src="assets/js/modernizr/modernizr.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="funtions/functions.js"></script>
     <style>
         .errorWrap {
             padding: 10px;
@@ -51,7 +53,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="navbar-header no-padding">
-                        <a class="navbar-brand" target="a_blank" href="https://www.configuroweb.com/46-aplicaciones-gratuitas-en-php-python-y-javascript/#Aplicaciones-gratuitas-en-PHP,-Python-y-Javascript">
+                        <a class="navbar-brand" target="a_blank" href="">
                             <img src="assets/images/logo.png" style="Width: 165px">
                         </a>
                         <span class="small-nav-handle hidden-sm hidden-xs"><i class="fa fa-outdent"></i></span>

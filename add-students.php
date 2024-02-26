@@ -17,34 +17,8 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
-if (strlen($_SESSION['alogin']) == "") {
-    header("Location: index.php");
-} else {
-    if (isset($_POST['submit'])) {
-        $studentname = $_POST['fullanme'];
-        $roolid = $_POST['rollid'];
-        $studentemail = $_POST['emailid'];
-        $gender = $_POST['gender'];
-        $classid = $_POST['class'];
-        $dob = $_POST['dob'];
-        $status = 1;
-        $sql = "INSERT INTO  tblstudents(StudentName,RollId,StudentEmail,Gender,ClassId,DOB,Status) VALUES(:studentname,:roolid,:studentemail,:gender,:classid,:dob,:status)";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':studentname', $studentname, PDO::PARAM_STR);
-        $query->bindParam(':roolid', $roolid, PDO::PARAM_STR);
-        $query->bindParam(':studentemail', $studentemail, PDO::PARAM_STR);
-        $query->bindParam(':gender', $gender, PDO::PARAM_STR);
-        $query->bindParam(':classid', $classid, PDO::PARAM_STR);
-        $query->bindParam(':dob', $dob, PDO::PARAM_STR);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
-        $query->execute();
-        $lastInsertId = $dbh->lastInsertId();
-        if ($lastInsertId) {
-            $msg = "Información del estudiante agregada correctamente";
-        } else {
-            $error = "Algo salió mal. Inténtalo de nuevo";
-        }
-    }
+if ($_SESSION['alogin'] == '') {
+
 ?>
 
 
@@ -134,15 +108,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <label for="default" class="control-label">Año</label>
                                                 <select name="class" class="form-control" id="default" required="required">
                                                     <option value="">Seleccionar Año</option>
-                                                    <?php $sql = "SELECT * from tblclasses";
-                                                    $query = $dbh->prepare($sql);
-                                                    $query->execute();
-                                                    $results = $query->fetchAll(PDO::FETCH_OBJ);
-                                                    if ($query->rowCount() > 0) {
-                                                        foreach ($results as $result) {   ?>
-                                                            <option value="<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->ClassName); ?>&nbsp; Section-<?php echo htmlentities($result->Section); ?></option>
-                                                    <?php }
-                                                    } ?>
+                                                    
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">

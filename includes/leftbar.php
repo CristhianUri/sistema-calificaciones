@@ -14,10 +14,6 @@
 
                 </li>
 
-                <li>
-                    <a href="register-admin.php"><i class="fa fa-user"></i>  <span>Registrar administradora</span> </a>
-
-                </li>
 
                 <li class="nav-header">
                     <span class="">Configuración</span>
@@ -44,6 +40,14 @@
                 <a href="#"><i class="fa fa-users"></i> <span>Estudiantes</span> <i class="fa fa-angle-right arrow"></i></a>
                 <ul class="child-nav">
                     <li><a href="add-students.php"><i class="fa fa-plus"></i> <span>Agregar Estudiantes</span></a></li>
+                    <li><a href="manage-students.php"><i class="fa fa-bars"></i> <span>Gestionar Estudiantes</span></a></li>
+
+                </ul>
+            </li>
+            <li class="has-children">
+                <a href="#"><i class="fa fa-user"></i> </i> <span>administradores</span> <i class="fa fa-angle-right arrow"></i></a>
+                <ul class="child-nav">
+                    <li><a href="register-admin.php">  <span>Registrar administrador</span> </a></li>
                     <li><a href="manage-students.php"><i class="fa fa-bars"></i> <span>Gestionar Estudiantes</span></a></li>
 
                 </ul>

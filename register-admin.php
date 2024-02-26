@@ -1,181 +1,150 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #3d85ed !important;
-            color: white;
-            text-align: center;
-        }
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #3d85ed !important;
+        color: white;
+        text-align: center;
+    }
     </style>
 </head>
 
 <?php
 session_start();
 error_reporting(0);
-include('includes/config.php');
-if (strlen($_SESSION['alogin']) == "") {
-    header("Location: index.php");
-} else {
-    if (isset($_POST['submit'])) {
-        $studentname = $_POST['fullanme'];
-        $roolid = $_POST['rollid'];
-        $studentemail = $_POST['emailid'];
-        $gender = $_POST['gender'];
-        $classid = $_POST['class'];
-        $dob = $_POST['dob'];
-        $status = 1;
-        $sql = "INSERT INTO  tblstudents(StudentName,RollId,StudentEmail,Gender,ClassId,DOB,Status) VALUES(:studentname,:roolid,:studentemail,:gender,:classid,:dob,:status)";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':studentname', $studentname, PDO::PARAM_STR);
-        $query->bindParam(':roolid', $roolid, PDO::PARAM_STR);
-        $query->bindParam(':studentemail', $studentemail, PDO::PARAM_STR);
-        $query->bindParam(':gender', $gender, PDO::PARAM_STR);
-        $query->bindParam(':classid', $classid, PDO::PARAM_STR);
-        $query->bindParam(':dob', $dob, PDO::PARAM_STR);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
-        $query->execute();
-        $lastInsertId = $dbh->lastInsertId();
-        if ($lastInsertId) {
-            $msg = "Información del estudiante agregada correctamente";
-        } else {
-            $error = "Algo salió mal. Inténtalo de nuevo";
-        }
-    }
+if ($_SESSION['id']==1) {
+    # code...
+    header('location: index.php');
+} else{
 ?>
 
 
-    <!-- ========== TOP NAVBAR ========== -->
-    <?php include('includes/topbar.php'); ?>
-    <!-- ========== WRAPPER FOR BOTH SIDEBARS & MAIN CONTENT ========== -->
-    <div class="content-wrapper">
-        <div class="content-container">
+<!-- ========== TOP NAVBAR ========== -->
+<?php include('includes/topbar.php'); ?>
+<!-- ========== WRAPPER FOR BOTH SIDEBARS & MAIN CONTENT ========== -->
+<div class="content-wrapper">
+    <div class="content-container">
 
-            <!-- ========== LEFT SIDEBAR ========== -->
-            <?php include('includes/leftbar.php'); ?>
-            <!-- /.left-sidebar -->
+        <!-- ========== LEFT SIDEBAR ========== -->
+        <?php include('includes/leftbar.php'); ?>
+        <!-- /.left-sidebar -->
 
-            <div class="main-page">
+        <div class="main-page">
 
-                <div class="container-fluid">
-                    <div class="row page-title-div">
-                        <div class="col-md-6">
-                            <h2 class="title">Agregar Estudiante</h2>
-
-                        </div>
-
-                        <!-- /.col-md-6 text-right -->
-                    </div>
-                    <!-- /.row -->
-                    <div class="row breadcrumb-div">
-                        <div class="col-md-6">
-                            <ul class="breadcrumb">
-                                <li><a href="dashboard.php"><i class="fa fa-home"></i> Inicio</a></li>
-
-                                <li class="active">Agregar Estudiante</li>
-                            </ul>
-                        </div>
+            <div class="container-fluid">
+                <div class="row page-title-div">
+                    <div class="col-md-6">
+                        <h2 class="title">Agregar administrador</h2>
 
                     </div>
-                    <!-- /.row -->
+
+                    <!-- /.col-md-6 text-right -->
                 </div>
-                <section class="section">
-                    <div class="container-fluid">
+                <!-- /.row -->
+                <div class="row breadcrumb-div">
+                    <div class="col-md-6">
+                        <ul class="breadcrumb">
+                            <li><a href="dashboard.php"><i class="fa fa-home"></i> Inicio</a></li>
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel">
-                                    <div class="panel-heading">
-                                        <div class="panel-title">
-                                            <h5>Completa la información del estudiante</h5>
-                                        </div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <?php if ($msg) { ?>
-                                            <div class="alert alert-success left-icon-alert" role="alert">
-                                                <strong>Bien hecho! </strong><?php echo htmlentities($msg); ?>
-                                            </div><?php } else if ($error) { ?>
-                                            <div class="alert alert-danger left-icon-alert" role="alert">
-                                                <strong>Algo salió mal!</strong> <?php echo htmlentities($error); ?>
-                                            </div>
-                                        <?php } ?>
-                                        <form class="row" method="post">
+                            <li class="active">Agregar adminstrador</li>
+                        </ul>
+                    </div>
 
-                                            <div class="form-group col-md-6">
-                                                <label for="default" class="control-label">Nombre Completo</label>
-                                                <input type="text" name="fullanme" class="form-control" id="fullanme" required="required" autocomplete="off">
-                                            </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <section class="section">
+                <div class="container-fluid">
 
-                                            <div class="form-group col-md-6">
-                                                <label for="default" class="control-label">ID Rol</label>
-                                                <input type="text" name="rollid" class="form-control" id="rollid" maxlength="5" required="required" autocomplete="off">
-
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label for="default" class="control-label">Correo</label>
-
-                                                <input type="email" name="emailid" class="form-control" id="email" required="required" autocomplete="off">
-                                            </div>
-
-
-
-                                            <div class="form-group col-md-6">
-                                                <label for="default" class="control-label">Género</label>
-                                                <input type="radio" name="gender" value="Male" required="required" checked=""> Male <input type="radio" name="gender" value="Female" required="required"> Female <input type="radio" name="gender" value="Other" required="required"> Other
-
-                                            </div>
-
-
-                                            <div class="form-group col-md-6">
-                                                <label for="default" class="control-label">Año</label>
-                                                <select name="class" class="form-control" id="default" required="required">
-                                                    <option value="">Seleccionar Año</option>
-                                                    <?php $sql = "SELECT * from tblclasses";
-                                                    $query = $dbh->prepare($sql);
-                                                    $query->execute();
-                                                    $results = $query->fetchAll(PDO::FETCH_OBJ);
-                                                    if ($query->rowCount() > 0) {
-                                                        foreach ($results as $result) {   ?>
-                                                            <option value="<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->ClassName); ?>&nbsp; Section-<?php echo htmlentities($result->Section); ?></option>
-                                                    <?php }
-                                                    } ?>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="date" class=" control-label">Año de Nacimiento</label>
-                                                <input type="date" name="dob" class="form-control" id="date">
-                                            </div>
-
-
-
-                                            <div class="form-group col-md-12">
-                                                <button type="submit" name="submit" class="btn btn-success">Agregar</button>
-                                            </div>
-                                        </form>
-
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        <h5>Completa la información del estudiante</h5>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="panel-body">
 
-                            <!-- /.col-md-12 -->
+                                    <form id="frm_registrar" class="p-5 border rounded shadow row" acction="" method="POST">
+
+                                        <div class="form-group col-md-6">
+                                            <label for="nombre" class="form-label">Nombre</label>
+                                            <input type="text" id="nombre" name="nombre" class="form-control"
+                                                placeholder="Ingrese su nombre" required>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="aPaterno" class="form-label">Apellido paterno</label>
+                                            <input type="text" id="aPaterno" name="aPaterno" class="form-control"
+                                                placeholder="Ingrese su apellido paterno" required>
+
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="aMaterno" class="form-label">Apellido materno</label>
+                                            <input type="text" id="aMaterno" name="aMaterno" class="form-control"
+                                                placeholder="Ingrese su apellido materno" required>
+
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="email" class="form-label">Correo electrónico</label>
+                                            <input type="email" id="email" name="email" class="form-control"
+                                                placeholder="Ingrese su correo electrónico" required>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="contraseña" class="form-label">Contraseña</label>
+                                            <input type="password" id="password" name="password" class="form-control"
+                                                placeholder="Ingrese su contraseña" required>
+                                        </div>
+
+
+
+                                        <div class="form-group col-md-12">
+
+                                            <button id="btn-registrar" class="btn btn-primary " type="submit">Crear
+                                                administrador</button>
+
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
                         </div>
 
+                        <!-- /.col-md-12 -->
                     </div>
-                </section>
+
+                </div>
+            </section>
 
 
-            </div>
-
-            <!-- /.content-container -->
         </div>
-        <!-- /.content-wrapper -->
-        <?php include('includes/footer.php'); ?>
 
+        <!-- /.content-container -->
+    </div>
+    
 
+    <?php include('includes/footer.php'); ?>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- /.content-wrapper -->
 
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btn-registrar").on('click', function(e){
+                e.preventDefault();
+             
+                registrar();
+                
+            });
+        });
+    </script>
+    <?php } ?>
 
-    <?PHP } ?>
+    <!---------------------------------------------------------------------------------------->
