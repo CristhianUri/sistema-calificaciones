@@ -16,10 +16,7 @@
 <?php
 session_start();
 error_reporting(0);
-if ($_SESSION['id']==1) {
-    # code...
-    header('location: index.php');
-} else{
+
 ?>
 
 
@@ -145,6 +142,6 @@ if ($_SESSION['id']==1) {
             });
         });
     </script>
-    <?php } ?>
+    
 
     <!---------------------------------------------------------------------------------------->

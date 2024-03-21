@@ -101,10 +101,10 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 </div>
                                             </div>
                                             <div class="form-group has-success">
-                                                <label for="success" class="control-label">Sección</label>
+                                                <label for="success" class="control-label">Semestre</label>
                                                 <div class="">
                                                     <input type="text" name="section" class="form-control" required="required" id="success">
-                                                    <span class="help-block">Puedes poner A, B, C ...</span>
+                                                    <span class="help-block">Puedes poner 1, 2, 3 ...</span>
                                                 </div>
                                             </div>
                                             <div class="form-group has-success">

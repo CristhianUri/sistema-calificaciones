@@ -160,7 +160,7 @@ include('includes/config.php');
                                     <div class="form-group">
 
                                         <div class="col-sm-6">
-                                            <a href="index.php" style="color:white;">Volver</a>
+                                            <a href="controllers/logout.php" style="color:white;">Cerrar sesion</a>
                                         </div>
                                     </div>
 

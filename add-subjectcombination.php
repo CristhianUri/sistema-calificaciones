@@ -81,7 +81,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                         <?php } ?>
                                         <form class="" method="post">
                                             <div class="form-group">
-                                                <label for="default" class="control-label">Año</label>
+                                                <label for="default" class="control-label">Año y semestre</label>
                                                 <select name="class" class="form-control" id="default" required="required">
                                                     <option value="">Selecciona año</option>
                                                     <?php $sql = "SELECT * from tblclasses";
@@ -90,7 +90,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     $results = $query->fetchAll(PDO::FETCH_OBJ);
                                                     if ($query->rowCount() > 0) {
                                                         foreach ($results as $result) {   ?>
-                                                            <option value="<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->ClassName); ?>&nbsp; Section-<?php echo htmlentities($result->Section); ?></option>
+                                                            <option value="<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->ClassName); ?>&nbsp; Semestre-<?php echo htmlentities($result->Section); ?></option>
                                                     <?php }
                                                     } ?>
                                                 </select>
@@ -130,7 +130,7 @@ if (strlen($_SESSION['alogin']) == "") {
         </div>
     </div>
     <!-- /.content-wrapper -->
-   
+    <?php include('includes/footer.php'); ?>
 
 
 

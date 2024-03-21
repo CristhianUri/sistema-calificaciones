@@ -10,19 +10,17 @@ if (strlen($_SESSION['alogin']) == "") {
 
     if (isset($_POST['submit'])) {
         $studentname = $_POST['fullanme'];
-        $roolid = $_POST['rollid'];
+        $aPaterno = $_POST['aPaterno'];
+        $aMaterno = $_POST['aMaterno'];
         $studentemail = $_POST['emailid'];
-        $gender = $_POST['gender'];
         $classid = $_POST['class'];
-        $dob = $_POST['dob'];
         $status = $_POST['status'];
-        $sql = "update tblstudents set StudentName=:studentname,RollId=:roolid,StudentEmail=:studentemail,Gender=:gender,DOB=:dob,Status=:status where StudentId=:stid ";
+        $sql = "update alumnos set nombre=:studentname,aPaterno=:aPaterno,aMaterno=:aMaterno,email=:studentemail,status=:status where id=:stid ";
         $query = $dbh->prepare($sql);
         $query->bindParam(':studentname', $studentname, PDO::PARAM_STR);
-        $query->bindParam(':roolid', $roolid, PDO::PARAM_STR);
+        $query->bindParam(':aPaterno', $aPaterno, PDO::PARAM_STR);
+        $query->bindParam(':aMaterno', $aMaterno, PDO::PARAM_STR);
         $query->bindParam(':studentemail', $studentemail, PDO::PARAM_STR);
-        $query->bindParam(':gender', $gender, PDO::PARAM_STR);
-        $query->bindParam(':dob', $dob, PDO::PARAM_STR);
         $query->bindParam(':status', $status, PDO::PARAM_STR);
         $query->bindParam(':stid', $stid, PDO::PARAM_STR);
         $query->execute();
@@ -89,7 +87,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                     <form class="form-horizontal" method="post">
                                         <?php
 
-                                        $sql = "SELECT tblstudents.StudentName,tblstudents.RollId,tblstudents.RegDate,tblstudents.StudentId,tblstudents.Status,tblstudents.StudentEmail,tblstudents.Gender,tblstudents.DOB,tblclasses.ClassName,tblclasses.Section from tblstudents join tblclasses on tblclasses.id=tblstudents.ClassId where tblstudents.StudentId=:stid";
+                                        $sql = "SELECT nombre, aPaterno,aMaterno,email, status, Section, ClassName from alumnos join tblclasses on tblclasses.id = alumnos.semestre where alumnos.id=:stid";
                                         $query = $dbh->prepare($sql);
                                         $query->bindParam(':stid', $stid, PDO::PARAM_STR);
                                         $query->execute();
@@ -102,80 +100,55 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <div class="form-group">
                                                     <label for="default" class="col-sm-2 control-label">Nombre Completo</label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" name="fullanme" class="form-control" id="fullanme" value="<?php echo htmlentities($result->StudentName) ?>" required="required" autocomplete="off">
+                                                        <input type="text" name="fullanme" class="form-control" id="fullanme" value="<?php echo htmlentities($result->nombre) ?>" required="required" autocomplete="off">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="default" class="col-sm-2 control-label">ID Rol</label>
+                                                    <label for="default" class="col-sm-2 control-label">Apellido paterno</label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" name="rollid" class="form-control" id="rollid" value="<?php echo htmlentities($result->RollId) ?>" maxlength="5" required="required" autocomplete="off">
+                                                        <input type="text" name="aPaterno" class="form-control" id="aPaterno" value="<?php echo htmlentities($result->aPaterno) ?>"  required="required" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="default" class="col-sm-2 control-label">Apellido materno</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" name="aMaterno" class="form-control" id="aMaterno" value="<?php echo htmlentities($result->aMaterno) ?>"  required="required" autocomplete="off">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="default" class="col-sm-2 control-label">Correo</label>
                                                     <div class="col-sm-10">
-                                                        <input type="email" name="emailid" class="form-control" id="email" value="<?php echo htmlentities($result->StudentEmail) ?>" required="required" autocomplete="off">
+                                                        <input type="email" name="emailid" class="form-control" id="email" value="<?php echo htmlentities($result->email) ?>" required="required" autocomplete="off">
                                                     </div>
                                                 </div>
 
 
 
-                                                <div class="form-group">
-                                                    <label for="default" class="col-sm-2 control-label">Género</label>
-                                                    <div class="col-sm-10">
-                                                        <?php $gndr = $result->Gender;
-                                                        if ($gndr == "Male") {
-                                                        ?>
-                                                            <input type="radio" name="gender" value="Male" required="required" checked>Male <input type="radio" name="gender" value="Female" required="required">Female <input type="radio" name="gender" value="Other" required="required">Other
-                                                        <?php } ?>
-                                                        <?php
-                                                        if ($gndr == "Female") {
-                                                        ?>
-                                                            <input type="radio" name="gender" value="Male" required="required">Male <input type="radio" name="gender" value="Female" required="required" checked>Female <input type="radio" name="gender" value="Other" required="required">Other
-                                                        <?php } ?>
-                                                        <?php
-                                                        if ($gndr == "Other") {
-                                                        ?>
-                                                            <input type="radio" name="gender" value="Male" required="required">Male <input type="radio" name="gender" value="Female" required="required">Female <input type="radio" name="gender" value="Other" required="required" checked>Other
-                                                        <?php } ?>
-
-
-                                                    </div>
-                                                </div>
+                                               
 
 
 
                                                 <div class="form-group">
                                                     <label for="default" class="col-sm-2 control-label">Año</label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" name="classname" class="form-control" id="classname" value="<?php echo htmlentities($result->ClassName) ?>(<?php echo htmlentities($result->Section) ?>)" readonly>
+                                                        <input type="text" name="classname" class="form-control" id="classname" value="<?php echo htmlentities($result->ClassName) ?>(Semestre-<?php echo htmlentities($result->Section) ?>)" readonly>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="date" class="col-sm-2 control-label">Fecha de Nacimiento</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="date" name="dob" class="form-control" value="<?php echo htmlentities($result->DOB) ?>" id="date">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="default" class="col-sm-2 control-label">Fecha de Registro: </label>
-                                                    <div class="col-sm-10">
-                                                        <?php echo htmlentities($result->RegDate) ?>
-                                                    </div>
-                                                </div>
+                                               
+                                                
 
                                                 <div class="form-group">
                                                     <label for="default" class="col-sm-2 control-label">Estado</label>
                                                     <div class="col-sm-10">
                                                         <?php $stats = $result->Status;
-                                                        if ($stats == "1") {
+                                                        if ($status == 1) {
                                                         ?>
                                                             <input type="radio" name="status" value="1" required="required" checked>Active <input type="radio" name="status" value="0" required="required">Block
                                                         <?php } ?>
                                                         <?php
-                                                        if ($stats == "0") {
+                                                        if ($stats == 0) {
                                                         ?>
                                                             <input type="radio" name="status" value="1" required="required">Active <input type="radio" name="status" value="0" required="required" checked>Block
                                                         <?php } ?>

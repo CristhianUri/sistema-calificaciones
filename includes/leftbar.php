@@ -1,7 +1,7 @@
 <div class="left-sidebar box-shadow 
 " style="
     background-color: #3d85ed; ">
-    <div class="sidebar-content">
+    <div class="sidebar-content mt-3">
         <!-- /.user-info -->
 
         <div class="sidebar-nav">
@@ -48,7 +48,7 @@
                 <a href="#"><i class="fa fa-user"></i> </i> <span>administradores</span> <i class="fa fa-angle-right arrow"></i></a>
                 <ul class="child-nav">
                     <li><a href="register-admin.php">  <span>Registrar administrador</span> </a></li>
-                    <li><a href="manage-students.php"><i class="fa fa-bars"></i> <span>Gestionar Estudiantes</span></a></li>
+                    <li><a href="#"><i class="fa fa-bars"></i> <span>Gestionar Estudiantes</span></a></li>
 
                 </ul>
             </li>

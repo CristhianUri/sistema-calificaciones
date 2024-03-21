@@ -14,7 +14,8 @@ require '../includes/config.php';
         $aMaterno = $_POST['aMaterno'];
         $email = $_POST['email'];
         $contraseña = $_POST['password'];
-        $pass= password_hash((string)$contraseña, PASSWORD_BCRYPT);
+        //$pass= password_hash((string)$contraseña, PASSWORD_BCRYPT);
+        $pass= md5($contraseña);
         if (emailRegistrado($dbh, $email)) {
            
             echo json_encode(["success"=>false,"message"=>"fallo"]);

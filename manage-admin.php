@@ -5,29 +5,7 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == "") {
     header("Location: index.php");
 } else {
-    // for activate Subject   	
-    if (isset($_GET['acid'])) {
-        $acid = intval($_GET['acid']);
-        $status = 1;
-        $sql = "update tblsubjectcombination set status=:status where id=:acid ";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':acid', $acid, PDO::PARAM_STR);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
-        $query->execute();
-        $msg = " Materia activada Correctamente";
-    }
 
-    // for Deactivate Subject
-    if (isset($_GET['did'])) {
-        $did = intval($_GET['did']);
-        $status = 0;
-        $sql = "update tblsubjectcombination set status=:status where id=:did ";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':did', $did, PDO::PARAM_STR);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
-        $query->execute();
-        $msg = " Materia Desactivada Correctamente";
-    }
 ?>
 
     <link rel="stylesheet" type="text/css" href="assets/js/DataTables/datatables.min.css" />
@@ -42,7 +20,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 <div class="container-fluid">
                     <div class="row page-title-div">
                         <div class="col-md-6">
-                            <h2 class="title">Gestionar la Relación de Materia</h2>
+                            <h2 class="title">Gestión de Estudiantes</h2>
 
                         </div>
 
@@ -53,8 +31,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         <div class="col-md-6">
                             <ul class="breadcrumb">
                                 <li><a href="dashboard.php"><i class="fa fa-home"></i> Inicio</a></li>
-                                <li> Materia</li>
-                                <li class="active">Gestionar Relación de Materia</li>
+                                <li> Estudiantes</li>
+                                <li class="active">Gestión de Estudiantes</li>
                             </ul>
                         </div>
 
@@ -74,15 +52,15 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="panel">
                                     <div class="panel-heading">
                                         <div class="panel-title">
-                                            <h5>Ver Información de Relación de Materia</h5>
+                                            <h5>Ver Información de Estudiante</h5>
                                         </div>
                                     </div>
                                     <?php if ($msg) { ?>
                                         <div class="alert alert-success left-icon-alert" role="alert">
-                                            <strong>Bien hecho!</strong><?php echo htmlentities($msg); ?>
+                                            <strong>Proceso Correcto! </strong><?php echo htmlentities($msg); ?>
                                         </div><?php } else if ($error) { ?>
                                         <div class="alert alert-danger left-icon-alert" role="alert">
-                                            <strong>Hubo inconvenientes!</strong> <?php echo htmlentities($error); ?>
+                                            <strong>Algo salió mal! </strong> <?php echo htmlentities($error); ?>
                                         </div>
                                     <?php } ?>
                                     <div class="panel-body p-20">
@@ -91,14 +69,16 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Materia y Sección</th>
-                                                    <th>Materia </th>
+                                                    <th>Nombre completo</th>
+                                                    <th>Rol en la escuela</th>
+                                                   
+                                                    <th>Fecha de Registro</th>
                                                     <th>Estado</th>
                                                     <th>Acción</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php $sql = "SELECT tblclasses.ClassName,tblclasses.Section,tblsubjects.SubjectName,tblsubjectcombination.id as scid,tblsubjectcombination.status from tblsubjectcombination join tblclasses on tblclasses.id=tblsubjectcombination.ClassId  join tblsubjects on tblsubjects.id=tblsubjectcombination.SubjectId";
+                                                <?php $sql = "SELECT alumnos.id,nombre, aPaterno,aMaterno,status ,ClassName, Section from alumnos join tblclasses  on tblclasses.Section = alumnos.semestre";
                                                 $query = $dbh->prepare($sql);
                                                 $query->execute();
                                                 $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -107,22 +87,20 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     foreach ($results as $result) {   ?>
                                                         <tr>
                                                             <td><?php echo htmlentities($cnt); ?></td>
-                                                            <td><?php echo htmlentities($result->ClassName); ?> &nbsp; Section-<?php echo htmlentities($result->Section); ?></td>
-                                                            <td><?php echo htmlentities($result->SubjectName); ?></td>
-                                                            <td><?php $stts = $result->status;
-                                                                if ($stts == '0') {
-                                                                    echo htmlentities('Inactive');
-                                                                } else {
+                                                            <td><?php echo htmlentities($result->nombre); ?></td>
+                                                            <td><?php echo htmlentities($result->aPaterno); ?></td>
+                                                            <td><?php echo htmlentities($result->aMaterno); ?></td>
+                                                            <td><?php echo htmlentities($result->ClassName); ?>(<?php echo htmlentities($result->Section); ?>)</td>
+                                                            
+                                                            <td><?php if ($result->status == 1) {
                                                                     echo htmlentities('Active');
+                                                                } else {
+                                                                    echo htmlentities('Blocked');
                                                                 }
                                                                 ?></td>
-
                                                             <td>
-                                                                <?php if ($stts == '0') { ?>
-                                                                    <a href="manage-subjectcombination.php?acid=<?php echo htmlentities($result->scid); ?>" onclick="confirm('Deseas activar esta materia?');" class="btn btn-success"><i class="fa fa-check" title="Acticvate Record"></i> </a><?php } else { ?>
+                                                                <a href="edit-student.php?stid=<?php echo htmlentities($result->id); ?>" class="btn btn-info"><i class="fa fa-edit" title="Edit Record"></i> </a>
 
-                                                                    <a href="manage-subjectcombination.php?did=<?php echo htmlentities($result->scid); ?>" class="btn btn-danger" onclick="confirm('Deseas desactivar esta materia?');"><i class="fa fa-times" title="Deactivate Record"></i> </a>
-                                                                <?php } ?>
                                                             </td>
                                                         </tr>
                                                 <?php $cnt = $cnt + 1;
@@ -167,6 +145,7 @@ if (strlen($_SESSION['alogin']) == "") {
     </div>
     <!-- /.content-wrapper -->
     <?php include('includes/footer.php'); ?>
+
 
 
 

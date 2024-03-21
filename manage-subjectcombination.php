@@ -91,7 +91,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Materia y Sección</th>
+                                                    <th>Año  y Semestre</th>
                                                     <th>Materia </th>
                                                     <th>Estado</th>
                                                     <th>Acción</th>
@@ -107,7 +107,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     foreach ($results as $result) {   ?>
                                                         <tr>
                                                             <td><?php echo htmlentities($cnt); ?></td>
-                                                            <td><?php echo htmlentities($result->ClassName); ?> &nbsp; Section-<?php echo htmlentities($result->Section); ?></td>
+                                                            <td><?php echo htmlentities($result->ClassName); ?> &nbsp; semestre(<?php echo htmlentities($result->Section); ?>)</td>
                                                             <td><?php echo htmlentities($result->SubjectName); ?></td>
                                                             <td><?php $stts = $result->status;
                                                                 if ($stts == '0') {

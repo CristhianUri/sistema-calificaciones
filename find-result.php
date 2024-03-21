@@ -1,7 +1,26 @@
 <?php
 session_start();
 //error_reporting(0);
-include('includes/config.php'); ?>
+include('includes/config.php');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $uname = $_POST['email'];
+    $password = $_POST['pass'];
+    $sql = "SELECT id, email , contrasena FROM alumnos WHERE email=:email AND status=1 ";
+    $query = $dbh->prepare($sql);
+    $query->bindParam(':email', $uname, PDO::PARAM_STR);
+    $query->execute();
+    $user = $query->fetchObject();
+    
+    if ($user && password_verify($password, $user->contrasena)) {
+       $_SESSION['alogin'] = $user->id;
+       echo "<script type='text/javascript'> document.location = 'result.php'; </script>";
+    } else {
+ 
+       echo "<script >alert('vuelve a intentarlo')</script>";
+    }
+ }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,25 +64,15 @@ include('includes/config.php'); ?>
 
 
 
-                            <form action="result.php" method="post" class="admin-login">
+                            <form action="find-result.php" method="post" class="admin-login">
                                 <div class="form-group">
-                                    <label for="rollid" class="control-label">Ingresa tu ID Roll</label>
-                                    <input type="text" class="form-control" id="rollid" placeholder="Ingresa tu ID Roll" autocomplete="off" name="rollid">
+                                    <label for="rollid" class="control-label">Ingresa tu email</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Ingresa tu email" autocomplete="off" name="email">
                                 </div>
                                 <div class="form-group">
-                                    <label for="default" class="control-label">Año</label>
-                                    <select name="class" class="form-control" id="default" required="required">
-                                        <option value="">Selecciona tu año</option>
-                                        <?php $sql = "SELECT * from tblclasses";
-                                        $query = $dbh->prepare($sql);
-                                        $query->execute();
-                                        $results = $query->fetchAll(PDO::FETCH_OBJ);
-                                        if ($query->rowCount() > 0) {
-                                            foreach ($results as $result) {   ?>
-                                                <option value="<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->ClassName); ?>&nbsp; Section-<?php echo htmlentities($result->Section); ?></option>
-                                        <?php }
-                                        } ?>
-                                    </select>
+                                    <label for="default" class="control-label">contraseña</label>
+                                    <input type="password" class="form-control" id="pass" placeholder="Ingresa tu contraseña" autocomplete="off" name="pass">
+                                    
                                 </div>
 
 
@@ -93,7 +102,8 @@ include('includes/config.php'); ?>
 
     </div>
     <!-- /.main-wrapper -->
-
+    <!--alerts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- ========== COMMON JS FILES ========== -->
     <script src="assets/js/jquery/jquery-2.2.4.min.js"></script>
     <script src="assets/js/jquery-ui/jquery-ui.min.js"></script>

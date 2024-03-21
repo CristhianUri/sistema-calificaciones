@@ -34,7 +34,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <li class="active">Gestionar Resultados</li>
                             </ul>
                         </div>
-
                     </div>
                     <!-- /.row -->
                 </div>
@@ -47,68 +46,37 @@ if (strlen($_SESSION['alogin']) == "") {
 
                         <div class="row">
                             <div class="col-md-12">
+                               <div class="col-md-6">
+                               <form action="">
+                                    <select name="semestre" class="form-control col-md-3" id="semestre" required="required">
+                                        <option value="">Seleccionar semestre</option>
+                                        <?php $sql = "SELECT * from tblclasses";
+                                        $query = $dbh->prepare($sql);
+                                        $query->execute();
+                                        $results = $query->fetchAll(PDO::FETCH_OBJ);
+                                        if ($query->rowCount() > 0) {
+                                            foreach ($results as $result) {   ?>
+                                                <option value="<?php echo htmlentities($result->id); ?>">
 
+                                                    Semestre-<?php echo htmlentities($result->Section); ?></option>
+                                        <?php }
+                                        } ?>
+                                    </select>
+                                </form>
+                               </div>
                                 <div class="panel">
                                     <div class="panel-heading">
+
+
+
                                         <div class="panel-title">
-                                            <h5>Ver Información de Resultados</h5>
+
                                         </div>
                                     </div>
-                                    <?php if ($msg) { ?>
-                                        <div class="alert alert-success left-icon-alert" role="alert">
-                                            <strong>Proceso Correcto! </strong><?php echo htmlentities($msg); ?>
-                                        </div><?php } else if ($error) { ?>
-                                        <div class="alert alert-danger left-icon-alert" role="alert">
-                                            <strong>Algo salió mal! </strong> <?php echo htmlentities($error); ?>
-                                        </div>
-                                    <?php } ?>
+                                   
                                     <div class="panel-body p-20">
 
-                                        <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Nombre de Estudiante</th>
-                                                    <th>ID Roll</th>
-                                                    <th>Año</th>
-                                                    <th>Fecha de Registro</th>
-                                                    <th>Estado</th>
-                                                    <th>Acción</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php $sql = "SELECT  distinct tblstudents.StudentName,tblstudents.RollId,tblstudents.RegDate,tblstudents.StudentId,tblstudents.Status,tblclasses.ClassName,tblclasses.Section from tblresult join tblstudents on tblstudents.StudentId=tblresult.StudentId  join tblclasses on tblclasses.id=tblresult.ClassId";
-                                                $query = $dbh->prepare($sql);
-                                                $query->execute();
-                                                $results = $query->fetchAll(PDO::FETCH_OBJ);
-                                                $cnt = 1;
-                                                if ($query->rowCount() > 0) {
-                                                    foreach ($results as $result) {   ?>
-                                                        <tr>
-                                                            <td><?php echo htmlentities($cnt); ?></td>
-                                                            <td><?php echo htmlentities($result->StudentName); ?></td>
-                                                            <td><?php echo htmlentities($result->RollId); ?></td>
-                                                            <td><?php echo htmlentities($result->ClassName); ?>(<?php echo htmlentities($result->Section); ?>)</td>
-                                                            <td><?php echo htmlentities($result->RegDate); ?></td>
-                                                            <td><?php if ($result->Status == 1) {
-                                                                    echo htmlentities('Active');
-                                                                } else {
-                                                                    echo htmlentities('Blocked');
-                                                                }
-                                                                ?></td>
-                                                            <td>
-                                                                <a href="edit-result.php?stid=<?php echo htmlentities($result->StudentId); ?>" class="btn btn-info"><i class="fa fa-edit" title="Edit Record"></i> </a>
-
-                                                            </td>
-                                                        </tr>
-                                                <?php $cnt = $cnt + 1;
-                                                    }
-                                                } ?>
-
-
-                                            </tbody>
-                                        </table>
-
+                                    <div id="tabla"></div>
 
                                         <!-- /.col-md-12 -->
                                     </div>
@@ -137,14 +105,29 @@ if (strlen($_SESSION['alogin']) == "") {
     <!-- /.main-page -->
 
 
-
     </div>
     <!-- /.content-container -->
     </div>
     <!-- /.content-wrapper -->
+    
 
     <?php include('includes/footer.php'); ?>
-
-
-
+    <script type="text/javascript">
+        $(document).ready(function(e){
+            $("#semestre").change(function(){
+                var data = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "controllers/obtener_tabla.php",
+                    data: {opcion:data},
+                    success: function(respuesta){
+                        $('#tabla').html(respuesta);
+                    },
+                    error: function(){
+                        alert('Error al obtener los datos')
+                    }
+                })
+            })
+        })
+    </script>
 <?php } ?>

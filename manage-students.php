@@ -70,15 +70,15 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Nombre de Estudiante</th>
-                                                    <th>ID Roll</th>
+                                                 
                                                     <th>Año</th>
-                                                    <th>Fecha de Registro</th>
+                                                    
                                                     <th>Estado</th>
                                                     <th>Acción</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php $sql = "SELECT tblstudents.StudentName,tblstudents.RollId,tblstudents.RegDate,tblstudents.StudentId,tblstudents.Status,tblclasses.ClassName,tblclasses.Section from tblstudents join tblclasses on tblclasses.id=tblstudents.ClassId";
+                                                <?php $sql = "SELECT alumnos.id, alumnos.nombre,alumnos.aPaterno,alumnos.aMaterno,alumnos.status,tblclasses.ClassName,tblclasses.Section from alumnos join tblclasses on tblclasses.id =alumnos.semestre";
                                                 $query = $dbh->prepare($sql);
                                                 $query->execute();
                                                 $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -87,18 +87,18 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     foreach ($results as $result) {   ?>
                                                         <tr>
                                                             <td><?php echo htmlentities($cnt); ?></td>
-                                                            <td><?php echo htmlentities($result->StudentName); ?></td>
-                                                            <td><?php echo htmlentities($result->RollId); ?></td>
+                                                            <td><?php echo htmlentities($result->nombre).' '. htmlentities($result->aPaterno).' '. htmlentities($result->aMaterno) ?></td>
+                                                            
                                                             <td><?php echo htmlentities($result->ClassName); ?>(<?php echo htmlentities($result->Section); ?>)</td>
-                                                            <td><?php echo htmlentities($result->RegDate); ?></td>
-                                                            <td><?php if ($result->Status == 1) {
+                                                            
+                                                            <td><?php if ($result->status == 1) {
                                                                     echo htmlentities('Active');
                                                                 } else {
                                                                     echo htmlentities('Blocked');
                                                                 }
                                                                 ?></td>
                                                             <td>
-                                                                <a href="edit-student.php?stid=<?php echo htmlentities($result->StudentId); ?>" class="btn btn-info"><i class="fa fa-edit" title="Edit Record"></i> </a>
+                                                                <a href="edit-student.php?stid=<?php echo htmlentities($result->id); ?>" class="btn btn-info"><i class="fa fa-edit" title="Edit Record"></i> </a>
 
                                                             </td>
                                                         </tr>

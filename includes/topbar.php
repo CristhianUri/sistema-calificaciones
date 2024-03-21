@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="assets/css/main.css" media="screen">
     <link rel="stylesheet" href="assets/css/prism/prism.css" media="screen">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- <link rel="stylesheet" type="text/css" href="assets/js/DataTables/datatables.min.css"/> -->
+    <link rel="stylesheet" type="text/css" href="assets/js/DataTables/datatables.min.css"/> 
     <script src="assets/js/modernizr/modernizr.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="funtions/functions.js"></script>
@@ -51,10 +51,10 @@
     <div class="main-wrapper">
         <nav class="navbar top-navbar bg-white">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="navbar-header no-padding">
-                        <a class="navbar-brand" target="a_blank" href="">
-                            <img src="assets/images/logo.png" style="Width: 165px">
+                <div class="row mb-3">
+                    <div class=" navbar-header no-padding">
+                        <a class="navbar-brand text-dark" target="a_blank" href="">
+                            <strong class="">Sistema calificaciones</strong>
                         </a>
                         <span class="small-nav-handle hidden-sm hidden-xs"><i class="fa fa-outdent"></i></span>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
